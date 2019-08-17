@@ -1,6 +1,5 @@
 package com.emramirez.bowling.processor.extractor;
 
-import com.emramirez.bowling.processor.extractor.PinExtractor;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;

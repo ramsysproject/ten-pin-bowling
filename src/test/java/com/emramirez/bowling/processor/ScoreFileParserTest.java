@@ -3,6 +3,7 @@ package com.emramirez.bowling.processor;
 import com.emramirez.bowling.model.Player;
 import com.emramirez.bowling.processor.extractor.ScoreLinePinExtractor;
 import com.emramirez.bowling.processor.extractor.ScoreLinePlayerExtractor;
+import com.emramirez.bowling.processor.validator.ScoreLineValidator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -29,6 +30,8 @@ public class ScoreFileParserTest {
     ScoreLinePlayerExtractor scoreLinePlayerExtractor;
     @Mock
     ScoreLinePinExtractor scoreLinePinExtractor;
+    @Mock
+    ScoreLineValidator scoreLineValidator;
     @InjectMocks
     private ScoreFileParser scoreFileParser;
 
@@ -38,6 +41,7 @@ public class ScoreFileParserTest {
         Stream<String> scoreLines = Stream.of("Emanuel 5");
         when(scoreLinePlayerExtractor.extract(anyString())).thenReturn(Player.builder().name(PLAYER_NAME).build());
         when(scoreLinePinExtractor.extract(anyString())).thenReturn(5);
+        when(scoreLineValidator.test(anyString())).thenReturn(true);
 
         // act
         Map<Player, List<Integer>> playerFrames = scoreFileParser.parseScoreLines(scoreLines);

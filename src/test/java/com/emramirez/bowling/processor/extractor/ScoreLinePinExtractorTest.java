@@ -6,6 +6,8 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.NoSuchElementException;
+
 import static org.junit.Assert.assertEquals;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -37,7 +39,7 @@ public class ScoreLinePinExtractorTest {
         // assert - done in annotation
     }
 
-    @Test(expected = NumberFormatException.class)
+    @Test(expected = NoSuchElementException.class)
     public void extract_emptyInputGiven_illegalArgumentExceptionExpected() {
         // arrange
         String line = "";
