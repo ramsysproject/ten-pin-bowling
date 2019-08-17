@@ -37,6 +37,7 @@ public class ScoreFileParserIT {
         // assert
         assertTrue(playerFrames.containsKey(buildPlayer("Jeff")));
         assertTrue(playerFrames.containsKey(buildPlayer("John")));
+        System.out.println(playerFrames);
     }
 
     private Player buildPlayer(String name) {
