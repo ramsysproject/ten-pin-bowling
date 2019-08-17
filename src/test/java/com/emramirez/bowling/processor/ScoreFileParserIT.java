@@ -1,7 +1,6 @@
 package com.emramirez.bowling.processor;
 
 import com.emramirez.bowling.model.Player;
-import com.emramirez.bowling.processor.ScoreFileParser;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,7 @@ public class ScoreFileParserIT {
     @Test
     public void parseScoreFile_validFileGiven_playersFramesMapExpected() throws URISyntaxException, IOException {
         // arrange
-        Path path = Paths.get(ClassLoader.getSystemResource("testgame.txt").toURI());
+        Path path = Paths.get(ClassLoader.getSystemResource("demogame.txt").toURI());
         Stream<String> scoreLines = Files.lines(path);
 
         // act

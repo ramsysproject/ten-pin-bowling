@@ -27,18 +27,14 @@ public class ScoreFileParser {
     private final ScoreLinesProcessor scoreLinesProcessor;
 
     public Map parseScoreLines(Stream<String> scoreLines) {
-        Map<Player, List<Integer>> playerScores =
+        Map<Player, List<Frame>> playerFrames =
                 scoreLines
                         .filter(scoreLineValidator::test)
                         .collect(
                                 groupingBy(playerExtractor::extract, mapping(pinExtractor::extract, toList()))
-                        );
-
-        Map<Player, List<Frame>> playerFrames =
-                playerScores.entrySet().stream()
-                        .collect(toMap(
-                                e -> e.getKey(),
-                                e -> scoreLinesProcessor.process(e.getValue()))
+                        ).entrySet().stream()
+                        .collect(
+                                toMap(e -> e.getKey(), e -> scoreLinesProcessor.process(e.getValue()))
                         );
 
         return playerFrames;
