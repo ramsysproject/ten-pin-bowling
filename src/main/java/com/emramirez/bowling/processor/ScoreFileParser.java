@@ -1,10 +1,9 @@
 package com.emramirez.bowling.processor;
 
 import com.emramirez.bowling.model.Player;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -15,16 +14,18 @@ import static java.util.function.Predicate.not;
 import static java.util.stream.Collectors.mapping;
 import static java.util.stream.Collectors.toList;
 
+@Service
+@RequiredArgsConstructor
 public class ScoreFileParser {
 
-    public Map parseScoreFile(Path scoreFilesPath) throws IOException {
-        Stream<String> scoreLines = Files.lines(scoreFilesPath);
+    private final ScoreLinePlayerExtractor scoreLinePlayerExtractor;
 
+    public Map parseScoreLines(Stream<String> scoreLines) {
         Map<Player, List<Integer>> playerFrames = scoreLines
                 .filter(not(String::isEmpty))
                 .collect(
                     Collectors.groupingBy(
-                        ScoreFileParser::extractPlayer,
+                        scoreLinePlayerExtractor::extract,
                         mapping(ScoreFileParser::extractPins, toList())
                     )
                 );
@@ -32,10 +33,6 @@ public class ScoreFileParser {
         System.out.println(playerFrames);
 
         return playerFrames;
-    }
-
-    private static Player extractPlayer(String scoreLine) {
-        return Arrays.stream(scoreLine.split("\\s+")).findFirst().map(Player::new).get();
     }
 
     private static Integer extractPins(String scoreLine) {
