@@ -1,4 +1,4 @@
-package com.emramirez.bowling.processor;
+package com.emramirez.bowling.processor.extractor;
 
 import com.emramirez.bowling.model.Player;
 

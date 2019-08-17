@@ -1,10 +1,11 @@
 package com.emramirez.bowling.processor;
 
 import com.emramirez.bowling.model.Player;
+import com.emramirez.bowling.processor.extractor.ScoreLinePinExtractor;
+import com.emramirez.bowling.processor.extractor.ScoreLinePlayerExtractor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;

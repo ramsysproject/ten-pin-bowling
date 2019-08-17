@@ -1,6 +1,7 @@
-package com.emramirez.bowling.processor;
+package com.emramirez.bowling.processor.extractor;
 
 import com.emramirez.bowling.model.Player;
+import com.emramirez.bowling.processor.extractor.PlayerExtractor;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;

@@ -1,4 +1,4 @@
-package com.emramirez.bowling;
+package com.emramirez.bowling.processor;
 
 import com.emramirez.bowling.model.Player;
 import com.emramirez.bowling.processor.ScoreFileParser;

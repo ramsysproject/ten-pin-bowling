@@ -1,9 +1,8 @@
-package com.emramirez.bowling;
+package com.emramirez.bowling.processor;
 
 import com.emramirez.bowling.model.Player;
-import com.emramirez.bowling.processor.ScoreFileParser;
-import com.emramirez.bowling.processor.ScoreLinePinExtractor;
-import com.emramirez.bowling.processor.ScoreLinePlayerExtractor;
+import com.emramirez.bowling.processor.extractor.ScoreLinePinExtractor;
+import com.emramirez.bowling.processor.extractor.ScoreLinePlayerExtractor;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -17,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -46,6 +46,18 @@ public class ScoreFileParserTest {
         Player player = buildPlayer(PLAYER_NAME);
         assertTrue(playerFrames.containsKey(player));
         assertTrue(playerFrames.get(player).equals(Arrays.asList(5)));
+    }
+
+    @Test
+    public void parseScoreFile_noLinesGiven_emptyMapExpected() throws URISyntaxException, IOException {
+        // arrange
+        Stream<String> scoreLines = Stream.empty();
+
+        // act
+        Map<Player, List<Integer>> playerFrames = scoreFileParser.parseScoreLines(scoreLines);
+
+        // assert
+        assertEquals(0, playerFrames.size());
     }
 
     private Player buildPlayer(String name) {
