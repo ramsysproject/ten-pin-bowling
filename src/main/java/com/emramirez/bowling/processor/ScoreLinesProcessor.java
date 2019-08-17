@@ -1,10 +1,13 @@
 package com.emramirez.bowling.processor;
 
 import com.emramirez.bowling.model.Frame;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+@Service
 public class ScoreLinesProcessor {
 
     public List<Frame> process(List<Integer> scoreLines) {
@@ -22,13 +25,19 @@ public class ScoreLinesProcessor {
         if (round == 10) {
             return processLastRound(scoreLines, frames, round, firstScore);
         } else if (firstScore == 10) {
-            round = processStrike(scoreLines, frames, round, firstScore);
+            round = processStrike(frames, round, firstScore);
+            scoreLines = removeElements(scoreLines, 1);
         } else {
             round = processRegular(scoreLines, frames, round, firstScore);
+            scoreLines = removeElements(scoreLines, 2);
         }
 
         processFrames(scoreLines, frames, round);
         return frames;
+    }
+
+    private List<Integer> removeElements(List<Integer> scoreLines, int i) {
+        return scoreLines.stream().skip(i).collect(Collectors.toList());
     }
 
     private List<Frame> processLastRound(List<Integer> scoreLines, List<Frame> frames, int round, int firstScore) {
@@ -51,14 +60,11 @@ public class ScoreLinesProcessor {
     private int processRegular(List<Integer> scoreLines, List<Frame> frames, int round, int firstScore) {
         int secondScore = scoreLines.get(1);
         frames.add(Frame.builder().firstPinFalls(firstScore).secondPinFalls(secondScore).round(round).build());
-        scoreLines.remove(0);
-        scoreLines.remove(1);
         return ++round;
     }
 
-    private int processStrike(List<Integer> scoreLines, List<Frame> frames, int round, int firstScore) {
+    private int processStrike(List<Frame> frames, int round, int firstScore) {
         frames.add(Frame.builder().firstPinFalls(firstScore).secondPinFalls(0).round(round).build());
-        scoreLines.remove(0);
         return ++round;
     }
 }

@@ -1,9 +1,11 @@
 package com.emramirez.bowling.processor;
 
+import com.emramirez.bowling.model.Frame;
 import com.emramirez.bowling.model.Player;
 import com.emramirez.bowling.processor.extractor.ScoreLinePinExtractor;
 import com.emramirez.bowling.processor.extractor.ScoreLinePlayerExtractor;
 import com.emramirez.bowling.processor.validator.ScoreLineValidator;
+import org.assertj.core.util.Maps;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -19,6 +21,7 @@ import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -32,6 +35,8 @@ public class ScoreFileParserTest {
     ScoreLinePinExtractor scoreLinePinExtractor;
     @Mock
     ScoreLineValidator scoreLineValidator;
+    @Mock
+    ScoreLinesProcessor scoreLinesProcessor;
     @InjectMocks
     private ScoreFileParser scoreFileParser;
 
@@ -39,17 +44,19 @@ public class ScoreFileParserTest {
     public void parseScoreFile_validLinesGiven_playersFramesMapExpected() throws URISyntaxException, IOException {
         // arrange
         Stream<String> scoreLines = Stream.of("Emanuel 5");
-        when(scoreLinePlayerExtractor.extract(anyString())).thenReturn(Player.builder().name(PLAYER_NAME).build());
+        Player player = Player.builder().name(PLAYER_NAME).build();
+        Frame frame = Frame.builder().firstPinFalls(5).build();
+        when(scoreLinePlayerExtractor.extract(anyString())).thenReturn(player);
         when(scoreLinePinExtractor.extract(anyString())).thenReturn(5);
         when(scoreLineValidator.test(anyString())).thenReturn(true);
+        when(scoreLinesProcessor.process(any())).thenReturn(List.of(frame));
 
         // act
-        Map<Player, List<Integer>> playerFrames = scoreFileParser.parseScoreLines(scoreLines);
+        Map<Player, List<Frame>> playerFrames = scoreFileParser.parseScoreLines(scoreLines);
 
         // assert
-        Player player = buildPlayer(PLAYER_NAME);
         assertTrue(playerFrames.containsKey(player));
-        assertTrue(playerFrames.get(player).equals(Arrays.asList(5)));
+        assertEquals(5, playerFrames.get(player).get(0).getFirstPinFalls());
     }
 
     @Test
