@@ -2,6 +2,7 @@ package com.emramirez.bowling;
 
 import com.emramirez.bowling.model.Player;
 import com.emramirez.bowling.processor.ScoreFileParser;
+import com.emramirez.bowling.processor.ScoreLinePinExtractor;
 import com.emramirez.bowling.processor.ScoreLinePlayerExtractor;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,6 +12,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -24,20 +27,25 @@ public class ScoreFileParserTest {
     public static final String PLAYER_NAME = "Emanuel";
     @Mock
     ScoreLinePlayerExtractor scoreLinePlayerExtractor;
+    @Mock
+    ScoreLinePinExtractor scoreLinePinExtractor;
     @InjectMocks
     private ScoreFileParser scoreFileParser;
 
     @Test
-    public void parseScoreFile_validFileGiven_playersFramesMapExpected() throws URISyntaxException, IOException {
+    public void parseScoreFile_validLinesGiven_playersFramesMapExpected() throws URISyntaxException, IOException {
         // arrange
-        Stream<String> scoreLines = Stream.of("Emanuel 0", "Emanuel 10");
+        Stream<String> scoreLines = Stream.of("Emanuel 5");
         when(scoreLinePlayerExtractor.extract(anyString())).thenReturn(Player.builder().name(PLAYER_NAME).build());
+        when(scoreLinePinExtractor.extract(anyString())).thenReturn(5);
 
         // act
-        Map playerFrames = scoreFileParser.parseScoreLines(scoreLines);
+        Map<Player, List<Integer>> playerFrames = scoreFileParser.parseScoreLines(scoreLines);
 
         // assert
-        assertTrue(playerFrames.containsKey(buildPlayer(PLAYER_NAME)));
+        Player player = buildPlayer(PLAYER_NAME);
+        assertTrue(playerFrames.containsKey(player));
+        assertTrue(playerFrames.get(player).equals(Arrays.asList(5)));
     }
 
     private Player buildPlayer(String name) {

@@ -18,28 +18,18 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class ScoreFileParser {
 
-    private final ScoreLinePlayerExtractor scoreLinePlayerExtractor;
+    private final ScoreLinePlayerExtractor playerExtractor;
+    private final ScoreLinePinExtractor pinExtractor;
 
     public Map parseScoreLines(Stream<String> scoreLines) {
-        Map<Player, List<Integer>> playerFrames = scoreLines
-                .filter(not(String::isEmpty))
-                .collect(
-                    Collectors.groupingBy(
-                        scoreLinePlayerExtractor::extract,
-                        mapping(ScoreFileParser::extractPins, toList())
-                    )
-                );
+        Map<Player, List<Integer>> playerFrames =
+                scoreLines
+                        .filter(not(String::isEmpty))
+                        .collect(Collectors.groupingBy(playerExtractor::extract, mapping(pinExtractor::extract, toList()))
+                        );
 
         System.out.println(playerFrames);
 
         return playerFrames;
-    }
-
-    private static Integer extractPins(String scoreLine) {
-        return Arrays.stream(scoreLine.split("\\s+"))
-                .skip(1)
-                .map(s -> s.replace("F", "0"))
-                .findFirst()
-                .map(Integer::valueOf).get();
     }
 }
