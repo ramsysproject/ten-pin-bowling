@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ClassicBowlingScoreCalculatorTest {
@@ -51,9 +50,7 @@ public class ClassicBowlingScoreCalculatorTest {
         BowlingResult bowlingResult = calculator.apply(bowlingMatch);
 
         // assert
-        assertNotNull(bowlingResult);
         assertEquals(300, bowlingResult.getPlayerResults().get(player).get(9).getScoreAt());
-        System.out.println(bowlingResult);
     }
 
     @Test
@@ -69,8 +66,22 @@ public class ClassicBowlingScoreCalculatorTest {
         BowlingResult bowlingResult = calculator.apply(bowlingMatch);
 
         // assert
-        assertNotNull(bowlingResult);
         assertEquals(299, bowlingResult.getPlayerResults().get(player).get(9).getScoreAt());
-        System.out.println(bowlingResult);
+    }
+
+    @Test
+    public void apply_90ScoreGameGiven_correctResultExpected() {
+        // arrange
+        BowlingMatch bowlingMatch = new BowlingMatch();
+        Map<Player, List<Frame>> playerGames = new HashMap<>();
+        Player player = TestUtils.buildPlayer("John");
+        playerGames.put(player, TestUtils.build80GameFrames());
+        bowlingMatch.setPlayerGames(playerGames);
+
+        // act
+        BowlingResult bowlingResult = calculator.apply(bowlingMatch);
+
+        // assert
+        assertEquals(90, bowlingResult.getPlayerResults().get(player).get(9).getScoreAt());
     }
 }

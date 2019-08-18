@@ -142,6 +142,21 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.4</version>
+                <configuration>
+                    <excludes>
+                        <!--Excluding trivial classes-->
+                        <exclude>**/*FrameScore.*</exclude>
+                        <exclude>**/*Frame.*</exclude>
+                        <exclude>**/*BowlingResult.*</exclude>
+                        <exclude>**/*BowlingMatch.*</exclude>
+                        <exclude>**/*Player.*</exclude>
+                        <exclude>**/*FrameScoreBuilder.*</exclude>
+                        <exclude>**/*FrameBuilder.*</exclude>
+                        <exclude>**/*BowlingResultBuilder.*</exclude>
+                        <exclude>**/*BowlingMatchBuilder.*</exclude>
+                        <exclude>**/*PlayerBuilder.*</exclude>
+                    </excludes>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
@@ -179,21 +194,4 @@
             </plugin>
 		</plugins>
 	</build>
-
-    <!--<reporting>-->
-        <!--<plugins>-->
-            <!--<plugin>-->
-                <!--<groupId>org.jacoco</groupId>-->
-                <!--<artifactId>jacoco-maven-plugin</artifactId>-->
-                <!--<reportSets>-->
-                    <!--<reportSet>-->
-                        <!--<reports>-->
-                            <!--&lt;!&ndash; select non-aggregate reports &ndash;&gt;-->
-                            <!--<report>report</report>-->
-                        <!--</reports>-->
-                    <!--</reportSet>-->
-                <!--</reportSets>-->
-            <!--</plugin>-->
-        <!--</plugins>-->
-    <!--</reporting>-->
 </project>

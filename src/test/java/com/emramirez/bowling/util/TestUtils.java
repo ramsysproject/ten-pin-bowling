@@ -42,6 +42,22 @@ public class TestUtils {
         return frames;
     }
 
+    public static List<Frame> build80GameFrames() {
+        List<Frame> frames = new ArrayList<>();
+        frames.add(Frame.builder().round(1).firstPinFalls(5).secondPinFalls(4).build());
+        frames.add(Frame.builder().round(2).firstPinFalls(5).secondPinFalls(4).build());
+        frames.add(Frame.builder().round(3).firstPinFalls(5).secondPinFalls(4).build());
+        frames.add(Frame.builder().round(4).firstPinFalls(5).secondPinFalls(4).build());
+        frames.add(Frame.builder().round(5).firstPinFalls(5).secondPinFalls(4).build());
+        frames.add(Frame.builder().round(6).firstPinFalls(5).secondPinFalls(4).build());
+        frames.add(Frame.builder().round(7).firstPinFalls(5).secondPinFalls(4).build());
+        frames.add(Frame.builder().round(8).firstPinFalls(5).secondPinFalls(4).build());
+        frames.add(Frame.builder().round(9).firstPinFalls(5).secondPinFalls(4).build());
+        frames.add(Frame.builder().round(10).firstPinFalls(5).secondPinFalls(4).build());
+
+        return frames;
+    }
+
     public static Player buildPlayer(String name) {
         return Player.builder().name(name).build();
     }
