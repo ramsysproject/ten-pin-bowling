@@ -27,7 +27,7 @@ public class ScoreFileParserIT {
     @Test
     public void parseScoreFile_validFileGiven_playersFramesMapExpected() throws URISyntaxException, IOException {
         // arrange
-        Path path = Paths.get(ClassLoader.getSystemResource("demogame.txt").toURI());
+        Path path = Paths.get(ClassLoader.getSystemResource("games/demogame.txt").toURI());
         Stream<String> scoreLines = Files.lines(path);
 
         // act

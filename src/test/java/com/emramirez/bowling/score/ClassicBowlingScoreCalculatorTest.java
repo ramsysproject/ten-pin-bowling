@@ -1,10 +1,10 @@
-package com.emramirez.bowling.parser.score;
+package com.emramirez.bowling.score;
 
 import com.emramirez.bowling.model.BowlingMatch;
 import com.emramirez.bowling.model.BowlingResult;
 import com.emramirez.bowling.model.Frame;
 import com.emramirez.bowling.model.Player;
-import com.emramirez.bowling.score.ClassicBowlingScoreCalculator;
+import com.emramirez.bowling.model.factory.FrameScoreFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -20,10 +20,10 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(MockitoJUnitRunner.class)
 public class ClassicBowlingScoreCalculatorTest {
 
-    ClassicBowlingScoreCalculator calculator = new ClassicBowlingScoreCalculator();
+    ClassicBowlingScoreCalculator calculator = new ClassicBowlingScoreCalculator(new FrameScoreFactory());
 
     @Test
-    public void apply_given_expected() {
+    public void apply_validGameGiven_correctResultExpected() {
         // arrange
         BowlingMatch bowlingMatch = new BowlingMatch();
         Map<Player, List<Frame>> playerGames = new HashMap<>();
