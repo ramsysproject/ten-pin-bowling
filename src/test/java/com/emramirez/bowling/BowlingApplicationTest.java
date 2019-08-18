@@ -1,7 +1,7 @@
 package com.emramirez.bowling;
 
 import com.emramirez.bowling.parser.ScoreFileParser;
-import com.emramirez.bowling.presenter.BowlingResultPresenter;
+import com.emramirez.bowling.presenter.TextBowlingResultPresenter;
 import com.emramirez.bowling.score.BowlingScoreCalculator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +26,7 @@ public class BowlingApplicationTest {
     @Mock
     BowlingScoreCalculator bowlingScoreCalculator;
     @Mock
-    BowlingResultPresenter bowlingResultPresenter;
+    TextBowlingResultPresenter textBowlingResultPresenter;
     @InjectMocks
     private BowlingApplication bowlingApplication;
 
@@ -49,7 +49,7 @@ public class BowlingApplicationTest {
         // assert
         verify(scoreFileParser).parseScoreLines(any());
         verify(bowlingScoreCalculator).apply(any());
-        verify(bowlingResultPresenter).present(any());
+        verify(textBowlingResultPresenter).present(any());
     }
 
 }

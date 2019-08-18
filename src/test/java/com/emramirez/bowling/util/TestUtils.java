@@ -6,6 +6,8 @@ import com.emramirez.bowling.model.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class TestUtils {
 
@@ -78,6 +80,14 @@ public class TestUtils {
             frames.add(Frame.builder().round(i).firstPinFalls(10).build());
         }
         frames.add(Frame.builder().round(10).firstPinFalls(10).secondPinFalls(10).thirdPinFalls(9).build());
+
+        return frames;
+    }
+
+    public static List<Frame> buildZeroScoreFrames() {
+        List<Frame> frames = IntStream.range(1, 11).mapToObj(i -> {
+            return Frame.builder().round(i).firstPinFalls(0).secondPinFalls(0).build();
+        }).collect(Collectors.toList());
 
         return frames;
     }

@@ -24,7 +24,7 @@ public class BowlingApplication implements CommandLineRunner {
 
     private final ScoreFileParser scoreFileParser;
     private final BowlingScoreCalculator bowlingScoreCalculator;
-    private final BowlingResultPresenter bowlingResultPresenter;
+    private final BowlingResultPresenter<String> bowlingResultPresenter;
 
 	public static void main(String[] args) {
 		SpringApplication.run(BowlingApplication.class, args);
@@ -40,7 +40,6 @@ public class BowlingApplication implements CommandLineRunner {
         FileInputStream fis = new FileInputStream(filePath);
         List<String> data = IOUtils.readLines(fis, "UTF-8");
 
-        // Improve this orchestration
 		Map playerGames = scoreFileParser.parseScoreLines(data.stream());
         BowlingMatch bowlingMatch = new BowlingMatch();
         bowlingMatch.setPlayerGames(playerGames);
