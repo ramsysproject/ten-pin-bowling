@@ -4,11 +4,13 @@ import com.emramirez.bowling.model.BowlingResult;
 import com.emramirez.bowling.model.Frame;
 import com.emramirez.bowling.model.FrameScore;
 import com.emramirez.bowling.model.Player;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
 
+@Service
 public class BowlingResultPresenter {
 
     public static final String TAB = "\t";
@@ -18,23 +20,31 @@ public class BowlingResultPresenter {
     public static final String BREAK_LIKE = "\n";
     public static final String SPARE_SYMBOL = "/";
     public static final String FRAME = "Frame";
+    public static final String SCORE = "Score";
 
     public String present(BowlingResult bowlingResult) {
         Map<Player, List<FrameScore>> playerResults = bowlingResult.getPlayerResults();
         StringBuilder result = new StringBuilder();
-        result.append(buildHeaderLine());
+        buildHeaderLine(result);
 
         playerResults.entrySet().stream()
                 .forEach(e -> {
-                    result.append(e.getKey().getName());
-                    result.append(BREAK_LIKE);
-                    result.append(PINFALLS);
+                    result.append(BREAK_LIKE).append(e.getKey().getName());
+                    result.append(BREAK_LIKE).append(PINFALLS);
                     StringBuilder pinfallLineBuilder = new StringBuilder();
                     buildPinfallsLine(e.getValue(), pinfallLineBuilder);
                     result.append(pinfallLineBuilder.toString().replace(TEN, STRIKE_SYMBOL));
+
+                    result.append(BREAK_LIKE);
+                    result.append(SCORE);
+                    buildScoreLine(result, e.getValue());
                 });
 
         return result.toString();
+    }
+
+    private void buildScoreLine(StringBuilder result, List<FrameScore> frameScores) {
+        frameScores.stream().forEach(frameScore -> result.append(TAB).append(TAB).append(frameScore.getScoreAt()));
     }
 
     private void buildPinfallsLine(List<FrameScore> frameScores, StringBuilder input) {
@@ -72,11 +82,9 @@ public class BowlingResultPresenter {
         input.append(TAB).append(frame.getFirstPinFalls()).append(TAB).append(SPARE_SYMBOL);
     }
 
-    private String buildHeaderLine() {
-        StringBuilder header = new StringBuilder();
-        header.append(FRAME);
-        IntStream.range(1, 11).forEach(i -> header.append(TAB).append(TAB).append(i));
-        header.append(BREAK_LIKE);
-        return header.toString();
+    private String buildHeaderLine(StringBuilder input) {
+        input.append(FRAME);
+        IntStream.range(1, 11).forEach(i -> input.append(TAB).append(TAB).append(i));
+        return input.toString();
     }
 }

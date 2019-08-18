@@ -33,8 +33,8 @@ public class ClassicBowlingScoreCalculator implements BowlingScoreCalculator {
         Map<Player, List<FrameScore>> playerResults = new HashMap<>();
         Map<Player, List<Frame>> playerGames = bowlingMatch.getPlayerGames();
 
-        AtomicInteger partialScore = new AtomicInteger();
         for (Player player: playerGames.keySet()) {
+            AtomicInteger partialScore = new AtomicInteger();
             List<Frame> playerFrames = playerGames.get(player);
             List<FrameScore> frameScores = playerFrames.stream()
                     .map(frame -> {
