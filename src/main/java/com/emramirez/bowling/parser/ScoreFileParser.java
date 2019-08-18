@@ -2,6 +2,8 @@ package com.emramirez.bowling.parser;
 
 import com.emramirez.bowling.model.Frame;
 import com.emramirez.bowling.model.Player;
+import com.emramirez.bowling.parser.extractor.PinExtractor;
+import com.emramirez.bowling.parser.extractor.PlayerExtractor;
 import com.emramirez.bowling.parser.extractor.ScoreLinePinExtractor;
 import com.emramirez.bowling.parser.extractor.ScoreLinePlayerExtractor;
 import com.emramirez.bowling.parser.mapper.ScoreLinesMapper;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.groupingBy;
@@ -22,9 +25,9 @@ import static java.util.stream.Collectors.toMap;
 @RequiredArgsConstructor
 public class ScoreFileParser {
 
-    private final ScoreLinePlayerExtractor playerExtractor;
-    private final ScoreLinePinExtractor pinExtractor;
-    private final ScoreLineValidator scoreLineValidator;
+    private final PlayerExtractor playerExtractor;
+    private final PinExtractor pinExtractor;
+    private final Predicate scoreLineValidator;
     private final ScoreLinesMapper scoreLinesMapper;
 
     public Map parseScoreLines(Stream<String> scoreLines) {

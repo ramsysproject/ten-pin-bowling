@@ -23,9 +23,9 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(MockitoJUnitRunner.class)
 @Slf4j
-public class BowlingResultPresenterTest {
+public class TextBowlingResultPresenterTest {
 
-    BowlingResultPresenter presenter = new BowlingResultPresenter();
+    TextBowlingResultPresenter presenter = new TextBowlingResultPresenter();
 
     @Test
     public void present_resultsGiven_correctFormatExpected() throws URISyntaxException, IOException {
