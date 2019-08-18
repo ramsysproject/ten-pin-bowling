@@ -1,4 +1,4 @@
-package com.emramirez.bowling.processor;
+package com.emramirez.bowling.parser.mapper;
 
 import com.emramirez.bowling.model.Frame;
 import org.springframework.stereotype.Service;
@@ -7,10 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * This class purpose is to map score lines into it´s object representation ${@link Frame}
+ */
 @Service
-public class ScoreLinesProcessor {
+public class ScoreLinesMapper {
 
-    public List<Frame> process(List<Integer> scoreLines) {
+    public List<Frame> map(List<Integer> scoreLines) {
         List<Frame> frames = new ArrayList<>();
 
         int initialRound = 1;

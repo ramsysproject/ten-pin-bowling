@@ -1,6 +1,5 @@
-package com.emramirez.bowling.processor.extractor;
+package com.emramirez.bowling.parser.extractor;
 
-import com.emramirez.bowling.processor.extractor.ScoreLinePinExtractor;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;

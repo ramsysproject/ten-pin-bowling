@@ -1,10 +1,11 @@
-package com.emramirez.bowling.processor;
+package com.emramirez.bowling.parser;
 
 import com.emramirez.bowling.model.Frame;
 import com.emramirez.bowling.model.Player;
-import com.emramirez.bowling.processor.extractor.ScoreLinePinExtractor;
-import com.emramirez.bowling.processor.extractor.ScoreLinePlayerExtractor;
-import com.emramirez.bowling.processor.validator.ScoreLineValidator;
+import com.emramirez.bowling.parser.extractor.ScoreLinePinExtractor;
+import com.emramirez.bowling.parser.extractor.ScoreLinePlayerExtractor;
+import com.emramirez.bowling.parser.mapper.ScoreLinesMapper;
+import com.emramirez.bowling.parser.validator.ScoreLineValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,21 +25,17 @@ public class ScoreFileParser {
     private final ScoreLinePlayerExtractor playerExtractor;
     private final ScoreLinePinExtractor pinExtractor;
     private final ScoreLineValidator scoreLineValidator;
-    private final ScoreLinesProcessor scoreLinesProcessor;
+    private final ScoreLinesMapper scoreLinesMapper;
 
     public Map parseScoreLines(Stream<String> scoreLines) {
-        Map<Player, List<Integer>> playerScores =
+        Map<Player, List<Frame>> playerFrames =
                 scoreLines
                         .filter(scoreLineValidator::test)
                         .collect(
                                 groupingBy(playerExtractor::extract, mapping(pinExtractor::extract, toList()))
-                        );
-
-        Map<Player, List<Frame>> playerFrames =
-                playerScores.entrySet().stream()
-                        .collect(toMap(
-                                e -> e.getKey(),
-                                e -> scoreLinesProcessor.process(e.getValue()))
+                        ).entrySet().stream()
+                        .collect(
+                                toMap(e -> e.getKey(), e -> scoreLinesMapper.map(e.getValue()))
                         );
 
         return playerFrames;

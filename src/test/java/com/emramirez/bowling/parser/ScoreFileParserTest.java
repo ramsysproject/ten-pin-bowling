@@ -1,11 +1,11 @@
-package com.emramirez.bowling.processor;
+package com.emramirez.bowling.parser;
 
 import com.emramirez.bowling.model.Frame;
 import com.emramirez.bowling.model.Player;
-import com.emramirez.bowling.processor.extractor.ScoreLinePinExtractor;
-import com.emramirez.bowling.processor.extractor.ScoreLinePlayerExtractor;
-import com.emramirez.bowling.processor.validator.ScoreLineValidator;
-import org.assertj.core.util.Maps;
+import com.emramirez.bowling.parser.extractor.ScoreLinePinExtractor;
+import com.emramirez.bowling.parser.extractor.ScoreLinePlayerExtractor;
+import com.emramirez.bowling.parser.mapper.ScoreLinesMapper;
+import com.emramirez.bowling.parser.validator.ScoreLineValidator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -36,7 +36,7 @@ public class ScoreFileParserTest {
     @Mock
     ScoreLineValidator scoreLineValidator;
     @Mock
-    ScoreLinesProcessor scoreLinesProcessor;
+    ScoreLinesMapper scoreLinesMapper;
     @InjectMocks
     private ScoreFileParser scoreFileParser;
 
@@ -49,7 +49,7 @@ public class ScoreFileParserTest {
         when(scoreLinePlayerExtractor.extract(anyString())).thenReturn(player);
         when(scoreLinePinExtractor.extract(anyString())).thenReturn(5);
         when(scoreLineValidator.test(anyString())).thenReturn(true);
-        when(scoreLinesProcessor.process(any())).thenReturn(List.of(frame));
+        when(scoreLinesMapper.map(any())).thenReturn(Arrays.asList(frame));
 
         // act
         Map<Player, List<Frame>> playerFrames = scoreFileParser.parseScoreLines(scoreLines);
