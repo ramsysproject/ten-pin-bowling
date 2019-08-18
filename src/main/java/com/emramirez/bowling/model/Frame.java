@@ -16,7 +16,7 @@ public class Frame {
 
     public boolean isSpare() {
         if (!isStrike()) {
-            return firstPinFalls + secondPinFalls == 10;
+            return sumRegularPlay() == 10;
         }
 
         return false;
@@ -28,6 +28,10 @@ public class Frame {
 
     public int sumFallenPins() {
         return firstPinFalls + secondPinFalls + thirdPinFalls;
+    }
+
+    public int sumRegularPlay() {
+        return firstPinFalls + secondPinFalls;
     }
 
     public List<Integer> getFallenPinsAsList() {

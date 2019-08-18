@@ -13,6 +13,9 @@ import java.util.stream.IntStream;
 @Service
 public class ClassicBowlingScoreCalculator implements BowlingScoreCalculator {
 
+    public static final int LAST_ROUND = 10;
+    public static final int PERFECT_SCORE = 10;
+
     @Override
     public BowlingResult apply(BowlingMatch bowlingMatch) {
         Map<Player, List<FrameScore>> playerResults = new HashMap<>();
@@ -41,22 +44,21 @@ public class ClassicBowlingScoreCalculator implements BowlingScoreCalculator {
      * @return
      */
     private int calculateRoundScore(AtomicInteger partialScore, Frame frame, List<Frame> playerFrames) {
-        if (frame.getRound() == 10) {
+        if (frame.getRound() == LAST_ROUND) {
             if (frame.isStrike() || frame.isSpare()) {
                 partialScore.addAndGet(frame.sumFallenPins());
             } else {
-                partialScore.addAndGet(frame.getFirstPinFalls() + frame.getSecondPinFalls());
+                partialScore.addAndGet(frame.sumRegularPlay());
             }
         } else {
             if (frame.isStrike()) {
-                partialScore.addAndGet(10);
+                partialScore.addAndGet(PERFECT_SCORE);
                 partialScore.addAndGet(getNextFallenPins(2, frame.getRound(), playerFrames));
             } else if (frame.isSpare()) {
-                partialScore.addAndGet(10);
+                partialScore.addAndGet(PERFECT_SCORE);
                 partialScore.addAndGet(getNextFallenPins(1, frame.getRound(), playerFrames));
             } else {
-                partialScore.addAndGet(frame.getFirstPinFalls());
-                partialScore.addAndGet(frame.getSecondPinFalls());
+                partialScore.addAndGet(frame.sumRegularPlay());
             }
         }
 
