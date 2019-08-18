@@ -1,4 +1,4 @@
-package com.emramirez.bowling.processor.extractor;
+package com.emramirez.bowling.parser.extractor;
 
 import org.springframework.stereotype.Component;
 

@@ -1,4 +1,4 @@
-package com.emramirez.bowling.processor.score;
+package com.emramirez.bowling.parser.score;
 
 import com.emramirez.bowling.model.BowlingMatch;
 import com.emramirez.bowling.model.BowlingResult;

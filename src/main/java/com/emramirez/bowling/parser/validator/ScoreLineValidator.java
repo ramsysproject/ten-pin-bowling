@@ -1,4 +1,4 @@
-package com.emramirez.bowling.processor.validator;
+package com.emramirez.bowling.parser.validator;
 
 import org.springframework.stereotype.Component;
 

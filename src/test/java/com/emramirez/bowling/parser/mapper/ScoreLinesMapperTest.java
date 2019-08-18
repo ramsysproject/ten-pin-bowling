@@ -1,6 +1,7 @@
-package com.emramirez.bowling.processor;
+package com.emramirez.bowling.parser.mapper;
 
 import com.emramirez.bowling.model.Frame;
+import com.emramirez.bowling.parser.mapper.ScoreLinesMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -12,9 +13,9 @@ import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ScoreLinesProcessorTest {
+public class ScoreLinesMapperTest {
 
-    ScoreLinesProcessor scoreLinesProcessor = new ScoreLinesProcessor();
+    ScoreLinesMapper scoreLinesMapper = new ScoreLinesMapper();
 
     @Test
     public void process_validScoresGiven_tenFramesExpected() {
@@ -22,7 +23,7 @@ public class ScoreLinesProcessorTest {
         List<Integer> scoreLines = IntStream.range(1, 13).map(i -> 10).boxed().collect(toList());
 
         // act
-        List<Frame> frames = scoreLinesProcessor.process(scoreLines);
+        List<Frame> frames = scoreLinesMapper.map(scoreLines);
 
         // assert
         assertEquals("Amount of frames is invalid", 10, frames.size());

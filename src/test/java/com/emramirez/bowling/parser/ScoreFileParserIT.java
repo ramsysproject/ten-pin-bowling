@@ -1,4 +1,4 @@
-package com.emramirez.bowling.processor;
+package com.emramirez.bowling.parser;
 
 import com.emramirez.bowling.model.Player;
 import org.junit.Test;
