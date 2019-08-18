@@ -1,7 +1,6 @@
 package com.emramirez.bowling.parser.mapper;
 
 import com.emramirez.bowling.model.Frame;
-import com.emramirez.bowling.parser.mapper.ScoreLinesMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -18,7 +17,7 @@ public class ScoreLinesMapperTest {
     ScoreLinesMapper scoreLinesMapper = new ScoreLinesMapper();
 
     @Test
-    public void process_validScoresGiven_tenFramesExpected() {
+    public void map_validScoresGiven_tenFramesExpected() {
         // arrange
         List<Integer> scoreLines = IntStream.range(1, 13).map(i -> 10).boxed().collect(toList());
 

@@ -83,7 +83,7 @@ public class BowlingResultPresenter {
     }
 
     private String buildHeaderLine(StringBuilder input) {
-        input.append(FRAME);
+        input.append(BREAK_LIKE).append(FRAME);
         IntStream.range(1, 11).forEach(i -> input.append(TAB).append(TAB).append(i));
         return input.toString();
     }

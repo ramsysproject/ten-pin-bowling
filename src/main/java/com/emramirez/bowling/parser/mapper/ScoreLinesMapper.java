@@ -1,5 +1,6 @@
 package com.emramirez.bowling.parser.mapper;
 
+import com.emramirez.bowling.enums.RoundEnum;
 import com.emramirez.bowling.model.Frame;
 import org.springframework.stereotype.Service;
 
@@ -13,21 +14,25 @@ import java.util.stream.Collectors;
 @Service
 public class ScoreLinesMapper {
 
+    public static final int TEN_PINS = 10;
+
+    /**
+     * Maps a list of integer representing score lines into a list of ${@link Frame}
+     * @param scoreLines the score lines to map
+     * @return a list of frames representing the score lines
+     */
     public List<Frame> map(List<Integer> scoreLines) {
         List<Frame> frames = new ArrayList<>();
-
-        int initialRound = 1;
-        frames = processFrames(scoreLines, frames, initialRound);
-
+        frames = processFrames(scoreLines, frames, RoundEnum.FIRST_ROUND.getRoundNumber());
         return frames;
     }
 
     private List<Frame> processFrames(List<Integer> scoreLines, List<Frame> frames, int round) {
         int firstScore = scoreLines.get(0);
 
-        if (round == 10) {
+        if (round == RoundEnum.LAST_ROUND.getRoundNumber()) {
             return processLastRound(scoreLines, frames, round, firstScore);
-        } else if (firstScore == 10) {
+        } else if (firstScore == TEN_PINS) {
             round = processStrike(frames, round, firstScore);
             scoreLines = removeElements(scoreLines, 1);
         } else {
@@ -57,7 +62,7 @@ public class ScoreLinesMapper {
     }
 
     private boolean thirdScoreApplies(int firstScore, int secondScore) {
-        return firstScore == 10 || (firstScore + secondScore == 10);
+        return firstScore == TEN_PINS || (firstScore + secondScore == TEN_PINS);
     }
 
     private int processRegular(List<Integer> scoreLines, List<Frame> frames, int round, int firstScore) {
