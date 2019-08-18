@@ -1,13 +1,16 @@
-package com.emramirez.bowling.parser.score;
+package com.emramirez.bowling.score;
 
+import com.emramirez.bowling.BowlingApplication;
 import com.emramirez.bowling.model.BowlingMatch;
 import com.emramirez.bowling.model.BowlingResult;
 import com.emramirez.bowling.model.Frame;
 import com.emramirez.bowling.model.Player;
-import com.emramirez.bowling.score.ClassicBowlingScoreCalculator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.ConfigFileApplicationContextInitializer;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,13 +20,16 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-@RunWith(MockitoJUnitRunner.class)
-public class ClassicBowlingScoreCalculatorTest {
+@RunWith(SpringRunner.class)
+@ContextConfiguration(classes = BowlingApplication.class,
+        initializers = ConfigFileApplicationContextInitializer.class)
+public class ClassicBowlingScoreCalculatorIntegrationTest {
 
-    ClassicBowlingScoreCalculator calculator = new ClassicBowlingScoreCalculator();
+    @Autowired
+    ClassicBowlingScoreCalculator calculator;
 
     @Test
-    public void apply_given_expected() {
+    public void apply_validGameGiven_correctResultExpected() {
         // arrange
         BowlingMatch bowlingMatch = new BowlingMatch();
         Map<Player, List<Frame>> playerGames = new HashMap<>();

@@ -57,7 +57,7 @@ public class ScoreLinesMapper {
     }
 
     private boolean thirdScoreApplies(int firstScore, int secondScore) {
-        return secondScore == 10 || (firstScore + secondScore == 10);
+        return firstScore == 10 || (firstScore + secondScore == 10);
     }
 
     private int processRegular(List<Integer> scoreLines, List<Frame> frames, int round, int firstScore) {

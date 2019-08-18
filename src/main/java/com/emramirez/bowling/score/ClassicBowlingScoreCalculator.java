@@ -1,6 +1,8 @@
 package com.emramirez.bowling.score;
 
 import com.emramirez.bowling.model.*;
+import com.emramirez.bowling.model.factory.FrameScoreFactory;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +15,13 @@ import java.util.stream.IntStream;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class ClassicBowlingScoreCalculator implements BowlingScoreCalculator {
 
     public static final int LAST_FRAME = 10;
     public static final int PERFECT_SCORE = 10;
+
+    private final FrameScoreFactory frameScoreFactory;
 
     /**
      *
@@ -28,8 +33,8 @@ public class ClassicBowlingScoreCalculator implements BowlingScoreCalculator {
         Map<Player, List<FrameScore>> playerResults = new HashMap<>();
         Map<Player, List<Frame>> playerGames = bowlingMatch.getPlayerGames();
 
-        AtomicInteger partialScore = new AtomicInteger();
         for (Player player: playerGames.keySet()) {
+            AtomicInteger partialScore = new AtomicInteger();
             List<Frame> playerFrames = playerGames.get(player);
             List<FrameScore> frameScores = playerFrames.stream()
                     .map(frame -> {
@@ -108,9 +113,6 @@ public class ClassicBowlingScoreCalculator implements BowlingScoreCalculator {
     }
 
     private FrameScore buildFrameScore(AtomicInteger partialScore, Frame frame) {
-        FrameScore frameScore = new FrameScore();
-        frameScore.setFrame(frame);
-        frameScore.setScoreAt(partialScore.get());
-        return frameScore;
+        return frameScoreFactory.buildFrameScore(partialScore, frame);
     }
 }
