@@ -22,6 +22,15 @@ Run `mvn spring-boot:run -Dspring-boot.run.arguments=/full/path/to/input/file.tx
 
 Run from project root `java -jar target/bowling-1.0.0-SNAPSHOT.jar /full/path/to/input/file.txt`
 
+3. At the moment the application can be invoked in docker for running the demo game. In future releases i will create a volume mapping 
+to allow the container to take an input file
+
+a. Pull the image `docker pull emaramirez1306/classic-bowling-scorer:initial`
+
+b. Run the image `docker run emaramirez1306/classic-bowling-scorer:initial`
+
+c. You can also build locally and run it, for building locally execute the `build.sh` script
+
 * **How to run tests**
 1. Run `mvn clean test` to execute unit tests
 2. Run `mvn clean verify` to execute unit and integration tests
