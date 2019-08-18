@@ -3,6 +3,9 @@ package com.emramirez.bowling.model;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Data
 @Builder
 public class Frame {
@@ -25,5 +28,9 @@ public class Frame {
 
     public int sumFallenPins() {
         return firstPinFalls + secondPinFalls + thirdPinFalls;
+    }
+
+    public List<Integer> getFallenPinsAsList() {
+        return Arrays.asList(firstPinFalls, secondPinFalls, thirdPinFalls);
     }
 }

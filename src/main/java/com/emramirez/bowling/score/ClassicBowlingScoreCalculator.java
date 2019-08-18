@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 public class ClassicBowlingScoreCalculator implements BowlingScoreCalculator {
@@ -49,18 +50,7 @@ public class ClassicBowlingScoreCalculator implements BowlingScoreCalculator {
         } else {
             if (frame.isStrike()) {
                 partialScore.addAndGet(10);
-                Frame nextFrame = findFrameByRound(frame.getRound() + 1, playerFrames);
-                if (nextFrame.isStrike()) {
-                    partialScore.addAndGet(10);
-                    if (nextFrame.getRound() == 10) {
-                        partialScore.addAndGet(nextFrame.getSecondPinFalls());
-                    } else {
-                        Frame otherFrame = findFrameByRound(nextFrame.getRound() + 1, playerFrames);
-                        partialScore.addAndGet(otherFrame.getFirstPinFalls());
-                    }
-                } else {
-                    partialScore.addAndGet(nextFrame.getFirstPinFalls() + nextFrame.getSecondPinFalls());
-                }
+                partialScore.addAndGet(getNextFallenPins(2, frame.getRound(), playerFrames));
             } else if (frame.isSpare()) {
                 partialScore.addAndGet(10);
                 partialScore.addAndGet(getNextFallenPins(1, frame.getRound(), playerFrames));
@@ -77,18 +67,27 @@ public class ClassicBowlingScoreCalculator implements BowlingScoreCalculator {
 
     /**
      * This methods gets the amount of pins fallen in the next x shots, passed as parameter.
-     * 
+     *
      * @param shotNumbers the number of shots ahead we want to analyze
      * @param round the current frame round
      * @param frames the player frames
      * @return the amount of fallen pins for the asked shots
      */
     private int getNextFallenPins(int shotNumbers, int round, List<Frame> frames) {
-        int fallenPins = 0;
-        for (int i = 1; i <= shotNumbers; i++) {
-            Frame nextFrame = findFrameByRound(round + i, frames);
-            fallenPins += nextFrame.getFirstPinFalls();
+        int fallenPins;
+        Frame nextFrame = findFrameByRound(round + 1, frames);
+
+        if (round == 9 || !nextFrame.isStrike()) {
+            fallenPins = IntStream.range(0, shotNumbers)
+                    .map(i -> nextFrame.getFallenPinsAsList().get(i))
+                    .sum();
+        } else {
+            fallenPins = IntStream.range(1, ++shotNumbers)
+                    .mapToObj(i -> findFrameByRound(round + i, frames))
+                    .mapToInt(Frame::getFirstPinFalls)
+                    .sum();
         }
+
         return fallenPins;
     }
 
