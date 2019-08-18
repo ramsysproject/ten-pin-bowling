@@ -155,6 +155,8 @@
                         <exclude>**/*BowlingResultBuilder.*</exclude>
                         <exclude>**/*BowlingMatchBuilder.*</exclude>
                         <exclude>**/*PlayerBuilder.*</exclude>
+                        <!--Tests have been created for the following class, only excluding because of static main-->
+                        <exclude>**/*BowlingApplication.*</exclude>
                     </excludes>
                 </configuration>
                 <executions>

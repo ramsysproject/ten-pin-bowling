@@ -37,8 +37,6 @@ public class BowlingApplication implements CommandLineRunner {
         }
 
 		String filePath = args[0];
-        System.out.println(filePath);
-
         FileInputStream fis = new FileInputStream(filePath);
         List<String> data = IOUtils.readLines(fis, "UTF-8");
 
