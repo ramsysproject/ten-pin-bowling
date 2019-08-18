@@ -41,7 +41,7 @@ public class ClassicBowlingScoreCalculator implements BowlingScoreCalculator {
      */
     private int calculateRoundScore(AtomicInteger partialScore, Frame frame, List<Frame> playerFrames) {
         if (frame.getRound() == 10) {
-            if (frame.isStrike() || frame.isSpare() || frame.getFirstPinFalls() == 10) {
+            if (frame.isStrike() || frame.isSpare()) {
                 partialScore.addAndGet(frame.sumFallenPins());
             } else {
                 partialScore.addAndGet(frame.getFirstPinFalls() + frame.getSecondPinFalls());
@@ -63,8 +63,7 @@ public class ClassicBowlingScoreCalculator implements BowlingScoreCalculator {
                 }
             } else if (frame.isSpare()) {
                 partialScore.addAndGet(10);
-                Frame nextFrame = findFrameByRound(frame.getRound() + 1, playerFrames);
-                partialScore.addAndGet(nextFrame.getFirstPinFalls());
+                partialScore.addAndGet(getNextFallenPins(1, frame.getRound(), playerFrames));
             } else {
                 partialScore.addAndGet(frame.getFirstPinFalls());
                 partialScore.addAndGet(frame.getSecondPinFalls());
@@ -74,6 +73,23 @@ public class ClassicBowlingScoreCalculator implements BowlingScoreCalculator {
         System.out.println(String.format("Round %d score is %d", frame.getRound(), partialScore.get()));
 
         return partialScore.get();
+    }
+
+    /**
+     * This methods gets the amount of pins fallen in the next x shots, passed as parameter.
+     * 
+     * @param shotNumbers the number of shots ahead we want to analyze
+     * @param round the current frame round
+     * @param frames the player frames
+     * @return the amount of fallen pins for the asked shots
+     */
+    private int getNextFallenPins(int shotNumbers, int round, List<Frame> frames) {
+        int fallenPins = 0;
+        for (int i = 1; i <= shotNumbers; i++) {
+            Frame nextFrame = findFrameByRound(round + i, frames);
+            fallenPins += nextFrame.getFirstPinFalls();
+        }
+        return fallenPins;
     }
 
     private Frame findFrameByRound(int i, List<Frame> playerFrames) {

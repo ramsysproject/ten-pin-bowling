@@ -20,11 +20,7 @@ public class Frame {
     }
 
     public boolean isStrike() {
-        if (round != 10) {
-            return firstPinFalls == 10;
-        } else {
-            return sumFallenPins() == 30;
-        }
+        return firstPinFalls == 10;
     }
 
     public int sumFallenPins() {
