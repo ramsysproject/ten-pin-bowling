@@ -36,7 +36,6 @@ public class ClassicBowlingScoreCalculatorTest {
         // assert
         assertNotNull(bowlingResult);
         assertEquals(167, bowlingResult.getPlayerResults().get(buildPlayer()).get(9).getScoreAt());
-        System.out.println(bowlingResult);
     }
 
     @Test
