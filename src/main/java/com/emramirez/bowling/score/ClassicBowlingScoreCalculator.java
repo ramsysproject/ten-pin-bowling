@@ -15,9 +15,14 @@ import java.util.stream.IntStream;
 @Slf4j
 public class ClassicBowlingScoreCalculator implements BowlingScoreCalculator {
 
-    public static final int LAST_ROUND = 10;
+    public static final int LAST_FRAME = 10;
     public static final int PERFECT_SCORE = 10;
 
+    /**
+     *
+     * @param bowlingMatch
+     * @return
+     */
     @Override
     public BowlingResult apply(BowlingMatch bowlingMatch) {
         Map<Player, List<FrameScore>> playerResults = new HashMap<>();
@@ -28,7 +33,7 @@ public class ClassicBowlingScoreCalculator implements BowlingScoreCalculator {
             List<Frame> playerFrames = playerGames.get(player);
             List<FrameScore> frameScores = playerFrames.stream()
                     .map(frame -> {
-                        partialScore.set(calculateRoundScore(partialScore, frame, playerFrames));
+                        partialScore.set(calculateFrameScore(partialScore, frame, playerFrames));
                         return buildFrameScore(partialScore, frame);
                     })
                     .collect(Collectors.toList());
@@ -40,13 +45,15 @@ public class ClassicBowlingScoreCalculator implements BowlingScoreCalculator {
     }
 
     /**
-     * WIP
-     * @param partialScore
-     * @param frame
-     * @return
+     * This method calculates a given frame score. It holds the core calculation logic for a classic ten pin
+     * bowling game.
+     *
+     * @param partialScore the partial score up until the given frame
+     * @param frame holds the information of the frame which score we want to calculate
+     * @return the new partial score
      */
-    private int calculateRoundScore(AtomicInteger partialScore, Frame frame, List<Frame> playerFrames) {
-        if (frame.getRound() == LAST_ROUND) {
+    private int calculateFrameScore(AtomicInteger partialScore, Frame frame, List<Frame> playerFrames) {
+        if (frame.getRound() == LAST_FRAME) {
             partialScore.addAndGet(
                     (frame.isStrike() || frame.isSpare()) ? frame.sumFallenPins() : frame.sumRegularPlay()
             );
@@ -63,12 +70,12 @@ public class ClassicBowlingScoreCalculator implements BowlingScoreCalculator {
             }
         }
 
-        log.debug("Round {} score is {}", frame.getRound(), partialScore.get());
+        log.debug("Frame {} score is {}", frame.getRound(), partialScore.get());
         return partialScore.get();
     }
 
     /**
-     * This methods gets the amount of pins fallen in the next x shots, passed as parameter.
+     * This method gets the amount of pins fallen in the next x shots, passed as parameter.
      *
      * @param shotNumbers the number of shots ahead we want to analyze
      * @param round the current frame round
