@@ -1,5 +1,6 @@
 package com.emramirez.bowling.score;
 
+import com.emramirez.bowling.BowlingApplication;
 import com.emramirez.bowling.model.BowlingMatch;
 import com.emramirez.bowling.model.BowlingResult;
 import com.emramirez.bowling.model.Frame;
@@ -7,7 +8,8 @@ import com.emramirez.bowling.model.Player;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.ConfigFileApplicationContextInitializer;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -19,8 +21,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
-public class ClassicBowlingScoreCalculatorIT {
+@ContextConfiguration(classes = BowlingApplication.class,
+        initializers = ConfigFileApplicationContextInitializer.class)
+public class ClassicBowlingScoreCalculatorIntegrationTest {
 
     @Autowired
     ClassicBowlingScoreCalculator calculator;
