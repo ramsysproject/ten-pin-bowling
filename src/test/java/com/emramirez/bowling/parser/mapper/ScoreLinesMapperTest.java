@@ -1,6 +1,7 @@
 package com.emramirez.bowling.parser.mapper;
 
 import com.emramirez.bowling.model.Frame;
+import com.emramirez.bowling.model.factory.FrameFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -14,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(MockitoJUnitRunner.class)
 public class ScoreLinesMapperTest {
 
-    ScoreLinesMapper scoreLinesMapper = new ScoreLinesMapper();
+    ScoreLinesMapper scoreLinesMapper = new ScoreLinesMapper(new FrameFactory());
 
     @Test
     public void map_validScoresGiven_tenFramesExpected() {
