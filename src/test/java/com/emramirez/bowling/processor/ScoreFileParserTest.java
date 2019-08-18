@@ -5,7 +5,6 @@ import com.emramirez.bowling.model.Player;
 import com.emramirez.bowling.processor.extractor.ScoreLinePinExtractor;
 import com.emramirez.bowling.processor.extractor.ScoreLinePlayerExtractor;
 import com.emramirez.bowling.processor.validator.ScoreLineValidator;
-import org.assertj.core.util.Maps;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -49,7 +48,7 @@ public class ScoreFileParserTest {
         when(scoreLinePlayerExtractor.extract(anyString())).thenReturn(player);
         when(scoreLinePinExtractor.extract(anyString())).thenReturn(5);
         when(scoreLineValidator.test(anyString())).thenReturn(true);
-        when(scoreLinesProcessor.process(any())).thenReturn(List.of(frame));
+        when(scoreLinesProcessor.process(any())).thenReturn(Arrays.asList(frame));
 
         // act
         Map<Player, List<Frame>> playerFrames = scoreFileParser.parseScoreLines(scoreLines);

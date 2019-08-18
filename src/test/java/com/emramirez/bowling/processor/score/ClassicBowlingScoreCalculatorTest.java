@@ -39,6 +39,40 @@ public class ClassicBowlingScoreCalculatorTest {
         System.out.println(bowlingResult);
     }
 
+    @Test
+    public void apply_perfectFramesGiven_perfectScoreExpected() {
+        // arrange
+        BowlingMatch bowlingMatch = new BowlingMatch();
+        Map<Player, List<Frame>> playerGames = new HashMap<>();
+        playerGames.put(buildPlayer(), buildPerfectFrames());
+        bowlingMatch.setPlayerGames(playerGames);
+
+        // act
+        BowlingResult bowlingResult = calculator.apply(bowlingMatch);
+
+        // assert
+        assertNotNull(bowlingResult);
+        assertEquals(300, bowlingResult.getPlayerResults().get(buildPlayer()).get(9).getScoreAt());
+        System.out.println(bowlingResult);
+    }
+
+    @Test
+    public void apply_nearPerfectFramesGiven_299ScoreExpected() {
+        // arrange
+        BowlingMatch bowlingMatch = new BowlingMatch();
+        Map<Player, List<Frame>> playerGames = new HashMap<>();
+        playerGames.put(buildPlayer(), buildNearPerfectFrames());
+        bowlingMatch.setPlayerGames(playerGames);
+
+        // act
+        BowlingResult bowlingResult = calculator.apply(bowlingMatch);
+
+        // assert
+        assertNotNull(bowlingResult);
+        assertEquals(299, bowlingResult.getPlayerResults().get(buildPlayer()).get(9).getScoreAt());
+        System.out.println(bowlingResult);
+    }
+
     private Player buildPlayer() {
         return Player.builder().name("Emanuel").build();
     }
@@ -55,6 +89,26 @@ public class ClassicBowlingScoreCalculatorTest {
         frames.add(Frame.builder().round(8).firstPinFalls(10).build());
         frames.add(Frame.builder().round(9).firstPinFalls(10).build());
         frames.add(Frame.builder().round(10).firstPinFalls(10).secondPinFalls(8).thirdPinFalls(1).build());
+
+        return frames;
+    }
+
+    private List<Frame> buildPerfectFrames() {
+        List<Frame> frames = new ArrayList<>();
+        for (int i = 1; i < 10; i++) {
+            frames.add(Frame.builder().round(i).firstPinFalls(10).build());
+        }
+        frames.add(Frame.builder().round(10).firstPinFalls(10).secondPinFalls(10).thirdPinFalls(10).build());
+
+        return frames;
+    }
+
+    private List<Frame> buildNearPerfectFrames() {
+        List<Frame> frames = new ArrayList<>();
+        for (int i = 1; i < 10; i++) {
+            frames.add(Frame.builder().round(i).firstPinFalls(10).build());
+        }
+        frames.add(Frame.builder().round(10).firstPinFalls(10).secondPinFalls(10).thirdPinFalls(9).build());
 
         return frames;
     }

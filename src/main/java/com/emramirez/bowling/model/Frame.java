@@ -12,7 +12,7 @@ public class Frame {
     private int thirdPinFalls;
 
     public boolean isSpare() {
-        if (round != 10 && firstPinFalls != 10) {
+        if (!isStrike()) {
             return firstPinFalls + secondPinFalls == 10;
         }
 
@@ -20,10 +20,14 @@ public class Frame {
     }
 
     public boolean isStrike() {
-        if (round != 10 && firstPinFalls == 10) {
-            return true;
+        if (round != 10) {
+            return firstPinFalls == 10;
+        } else {
+            return sumFallenPins() == 30;
         }
+    }
 
-        return false;
+    public int sumFallenPins() {
+        return firstPinFalls + secondPinFalls + thirdPinFalls;
     }
 }
