@@ -13,7 +13,7 @@ public class FrameFactory {
      * @param firstScore the first shot score
      * @return the required instance
      */
-    public Frame buildFrameScore(int round, Integer firstScore) {
+    public Frame buildFrame(int round, Integer firstScore) {
         Frame frame = Frame.builder()
                 .round(round)
                 .firstPinFalls(firstScore)
@@ -30,8 +30,8 @@ public class FrameFactory {
      * @param secondScore the second shot score
      * @return the required instance
      */
-    public Frame buildFrameScore(int round, Integer firstScore, Integer secondScore) {
-        Frame frame = buildFrameScore(round, firstScore);
+    public Frame buildFrame(int round, Integer firstScore, Integer secondScore) {
+        Frame frame = buildFrame(round, firstScore);
         frame.setSecondPinFalls(secondScore);
 
         return frame;
@@ -46,8 +46,8 @@ public class FrameFactory {
      * @param thirdScore the third shot score
      * @return the required instance
      */
-    public Frame buildFrameScore(int round, Integer firstScore, Integer secondScore, Integer thirdScore) {
-        Frame frame = buildFrameScore(round, firstScore, secondScore);
+    public Frame buildFrame(int round, Integer firstScore, Integer secondScore, Integer thirdScore) {
+        Frame frame = buildFrame(round, firstScore, secondScore);
         frame.setThirdPinFalls(thirdScore);
 
         return frame;

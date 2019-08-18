@@ -28,9 +28,7 @@ public class ScoreLinesMapper {
      * @return a list of frames representing the score lines
      */
     public List<Frame> map(List<Integer> scoreLines) {
-        List<Frame> frames = new ArrayList<>();
-        frames = processFrames(scoreLines, frames, RoundEnum.FIRST_ROUND.getRoundNumber());
-        return frames;
+        return processFrames(scoreLines, new ArrayList<>(), RoundEnum.FIRST_ROUND.getNumber());
     }
 
     /**
@@ -45,7 +43,7 @@ public class ScoreLinesMapper {
     private List<Frame> processFrames(List<Integer> scoreLines, List<Frame> frames, int round) {
         int firstScore = scoreLines.get(0);
 
-        if (round == RoundEnum.LAST_ROUND.getRoundNumber()) {
+        if (round == RoundEnum.LAST_ROUND.getNumber()) {
             return mapLastRound(scoreLines, frames, round);
         } else if (firstScore == TEN_PINS) {
             round = mapStrike(scoreLines, frames, round);
@@ -62,18 +60,17 @@ public class ScoreLinesMapper {
         int firstScore = scoreLines.get(0);
         int secondScore = scoreLines.get(1);
         int thirdScore = thirdScoreApplies(firstScore, secondScore) ? scoreLines.get(2) : 0;
-        frames.add(frameFactory.buildFrameScore(round, firstScore, secondScore, thirdScore));
+        frames.add(frameFactory.buildFrame(round, firstScore, secondScore, thirdScore));
         return frames;
     }
 
     private int mapRegular(List<Integer> scoreLines, List<Frame> frames, int round) {
-        frames.add(frameFactory.buildFrameScore(round, scoreLines.get(0), scoreLines.get(1)));
+        frames.add(frameFactory.buildFrame(round, scoreLines.get(0), scoreLines.get(1)));
         return ++round;
     }
 
     private int mapStrike(List<Integer> scoreLines, List<Frame> frames, int round) {
-        int firstScore = scoreLines.get(0);
-        frames.add(Frame.builder().firstPinFalls(firstScore).secondPinFalls(0).round(round).build());
+        frames.add(frameFactory.buildFrame(round, scoreLines.get(0)));
         return ++round;
     }
 

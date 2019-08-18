@@ -4,13 +4,13 @@ public enum RoundEnum {
     FIRST_ROUND(1),
     LAST_ROUND(10);
 
-    private int roundNumber;
+    private int number;
 
-    RoundEnum(int roundNumber) {
-        this.roundNumber = roundNumber;
+    RoundEnum(int number) {
+        this.number = number;
     }
 
-    public int getRoundNumber() {
-        return roundNumber;
+    public int getNumber() {
+        return number;
     }
 }
